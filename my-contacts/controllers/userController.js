@@ -9,13 +9,14 @@ const jwt = require('jsonwebtoken');
 
 const register = asyncHandler(async(req,res) => {
     const {username,email,password} = req.body
+    //console.log(req.body);
     if(!username ||  !email || !password){
         res.status(400);
         throw new Error('All field is mandatory !');
     }
     const checkUserAvailable = await User.findOne({email});
     if(checkUserAvailable){
-        res.status(400);
+        res.status(403);
         throw new Error('Email address already taken');
     }
     const hashPassword = await bcrypt.hash(password,10);
@@ -26,13 +27,14 @@ const register = asyncHandler(async(req,res) => {
         password:hashPassword
     });
 
-    console.log(`User created succssfully ${user}`);
+    //console.log(`User created succssfully ${user}`);
 
     if(user){
-        res.status(200).json({
-            id:user._id,
-            email:user.email
-        })
+        const json_output = {
+            status : 1,
+            message: 'Register successfully'
+        }
+        res.status(200).json(json_output)
     }else {
         res.status(400);
         throw new Error('User data us not valid')
@@ -66,7 +68,12 @@ const loginUser = asyncHandler(async(req,res) => {
             process.env.ACCESS_TOKEN_SECRET,
             {expiresIn:'15m'}
         );
-        res.status(200).json({accessTokn});
+        const  json_output = {
+            status:1,
+            message:'successfully logged in',
+            accesstoken:accessTokn
+        }
+        res.status(200).json(json_output);
 
     }else {
         res.status(400);

@@ -1,6 +1,6 @@
 const errorHandler = (err,req,res,next) => {
     const statusCode = (req.statusCode) ? req.statusCode:500;
-    console.log(req.statusCode);
+    console.log(res.statusCode);
     switch(statusCode){
         case 400 :
         res.json({

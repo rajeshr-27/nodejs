@@ -26,7 +26,12 @@ const createContact = asyncHandler(async(req,res) => {
         phone,
         user_id:req.user.id
     })
-    res.status(200).json(contact);
+
+    const json_output = {
+        status:1,
+        message: 'Successfully created contact',
+    }
+    res.status(200).json(json_output);
 })
 
 //@desc Get individul Contact
@@ -60,8 +65,11 @@ const updateContact = asyncHandler(async(req,res) => {
         throw new Error("User don't have permission to update other user contacts")
     }
 
-    const contactDetails = await Contact.findById(id);
-    res.status(200).json(contactDetails);
+    const json_output = {
+        status:1,
+        message: 'Successfully updated contact',
+    }
+    res.status(200).json(json_output);
 })
 
 //@desc Update Contact
@@ -79,7 +87,13 @@ const deleteContact = asyncHandler(async(req,res) => {
         res.status(403);
         throw new Error("User don't have permission to delete other user contacts")
     }
-    res.status(200).json(contact);
+    const contacts = await Contact.find({user_id:req.user.id})
+    const json_output = {
+        status:1,
+        message: 'Successfully deleted contact',
+        contacts:contacts
+    }
+    res.status(200).json(json_output);
 })
 
 module.exports = {getContacts, createContact, getContact, updateContact,deleteContact };
