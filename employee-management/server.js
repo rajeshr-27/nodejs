@@ -20,6 +20,9 @@ app.use('/api/employee', require('./routes/employeeRoute'));
 //     }
     
 // })
+app.use((err,req,res,next)=>{
+    console.log(err);
+}) 
 app.use(errorHandler);
 const port = process.env.PORT || 5000;
 app.listen(port,()=> {

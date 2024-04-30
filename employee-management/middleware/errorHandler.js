@@ -1,7 +1,7 @@
 const errorHandler = (err,req,res,next) => {
-    const statusCode = res.statusCode ? res.statusCode : 500;
+    const statusCode = res.statusCode ? res.statusCode : 500
 
-    switch(statusCode){
+    switch(statusCode){ 
         case(400):
         res.json({
             title:"Validation Error",
@@ -36,5 +36,5 @@ const errorHandler = (err,req,res,next) => {
             console.log('No Error')
     }
 }
-
+ 
 module.exports = errorHandler;
